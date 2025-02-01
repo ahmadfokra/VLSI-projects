@@ -1,1 +1,28 @@
+module ALU (
+input wire [7:0] A,
+input wire [7:0] B,
+input wire [2:0] Select,
+input wire clk,
+input wire n_reset,
+output reg [7:0] Out,
+output reg flag
 
+);
+
+
+always @(posedge clk or negedge n_reset)
+begin
+case (Select)
+
+
+3'b000 : Out <= A + B; //Addition
+3'b001 : Out <= A - B; //Subtracion
+3'b010 : Out <= A & B; //And
+3'b011 : Out <= A | B; //Or
+3'b100 : Out <= A ^ B;//Xor 
+3'b101 : Out <= A <<1 ;//Logical left by bit 
+3'b110 : Out <= A >>1 ;//logical right by bit 
+3'b000 : Out <= A ; //pass though
+endcase
+end
+endmodule
