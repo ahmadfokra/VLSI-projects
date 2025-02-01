@@ -1,0 +1,62 @@
+`timescale 1ns/1ps
+
+module tb_ALU ;
+reg clk;
+reg n_reset;
+reg [7:0] A;
+reg [7:0] B;
+reg [2:0] Select;
+wire [7:0] Out;
+wire flag;
+
+
+ALU dut (
+.clk(clk),.n_reset(n_reset),
+        .A(A),
+        .B(B),
+        .Select(Select),
+        .Out(Out),
+        .flag(flag)
+);
+
+
+//clock
+initial begin clk=0; end
+always begin
+#5 clk = !clk;
+end
+   initial begin
+        // Initialize inputs
+        n_reset = 0;
+        A = 0;
+        B = 0;
+        Select = 0;
+       
+
+        // for negedge triger the design is of when reset_n is high
+        #10 n_reset = 1;
+
+#10 A = 8'b10011011; B=8'b00100101; Select=3'b000;
+#10
+#10 Select=3'b001;
+#10
+#10 Select=3'b010;
+#10
+#10 Select=3'b011;
+#10
+#10 Select=3'b100;
+#10
+#10 Select=3'b101;
+#10
+#10 Select=3'b110;
+#10
+#10 Select=3'b111;
+
+#20 $finish;
+end
+  initial begin
+        $monitor("| Time=%0t | A=%b | B=%b | Select=%b | Out=%b | flag=%b | ",
+                 $time, A, B, Select, Out, flag);
+    end
+
+endmodule
